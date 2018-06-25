@@ -1,0 +1,18 @@
+{
+	"manifest_version" : 2,
+	"name"             : "I Hate Fixed Navigation",
+	"version"          : "0.1",
+	"description"      : "Changes all fixed- and sticky-positioned elements to use static positioning instead.",
+
+	"icons" : {
+		"48" : "icons/not-interested.svg",
+		"96" : "icons/not-interested.svg"
+	},
+
+	"content_scripts" : [
+		{
+			"matches" : [ "*://*/*" ],
+			"js"      : [ "i-hate-fixed-navigation.js" ]
+		}
+	]
+}

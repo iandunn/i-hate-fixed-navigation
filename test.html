@@ -1,0 +1,133 @@
+<html>
+	<!-- https://stackoverflow.com/questions/8159273/faster-way-to-modify-chrome-extension-than-remove-load-unpacked -->
+	<!-- https://stackoverflow.com/questions/2963260/how-do-i-auto-reload-a-chrome-extension-im-developing -->
+
+	<!-- maybe setup way to embed live pages, but not w/ iframe b/c then it wouldn't apply? or maybe use automated testing somehow?
+		either way, probably want to keep track of some examples
+
+		cases:
+			typical example: ?
+			reassigns position after scrolling via js: https://medium.com/s/story/the-unintended-cruelty-of-americas-immigration-policies-25c008b58d3e
+			?: https://www.buzzfeed.com/sydrobinson1/xx-illustrations-thatll-make-all-introverts-whisper-thats?utm_term=.xpWVEmRlX#.ylMx59neG
+			https://techcrunch.com/2018/06/22/facebook-analytics-leak/
+			https://blog.mozilla.org/internetcitizen/2018/05/23/gdpr-mozilla/?utm_source=www.mozilla.org&utm_medium=referral&utm_campaign=homepage&utm_content=card
+	-->
+
+	<head>
+		<title>Manually testing without having to reload the entire extension</title>
+		<meta charset="utf-8" />
+
+		<style>
+			body {
+				margin: 0;
+			}
+
+			/*
+			 * The `width` property below will cause the page to horizontally scroll after the positions are reset
+			 * to `static` by the browser extension. That's an unintended side-effect, but is an example of the kinds
+			 * of things that will happen in real sites.
+			 */
+			.head-fixed {
+				position: fixed !important;
+				top: 0;
+				background-color: #dbe8ff;
+				display: block;
+				width: 100%;
+				padding: 10px;
+			}
+
+			main {
+				margin: 0 40px;
+			}
+
+			article {
+				margin-left: 250px;
+			}
+
+			aside {
+				display: block;
+				width: 200px;
+				margin: 20px 20px 20px 0;
+				padding: 10px;
+			}
+
+			ul {
+				padding-left: 1em;
+			}
+
+			#share-fix {
+				position: sticky;
+				top: 60px;
+				background-color: #ffd6d1;
+			}
+
+			footer {
+				background-color: #dbe8ff;
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="head-fixed">
+			<nav>
+				<a href="">home</a>
+				<a href="">about</a>
+				<a href="">foo</a>
+				<a href="">bar</a>
+			</nav>
+		</header>
+
+		<main>
+			<aside id="share-fix">
+				<ul>
+					<li>facebook</li>
+					<li>twitters</li>
+					<li>...and more stuff i don't want in my face</li>
+				</ul>
+			</aside>
+
+			<aside style="position: fixed; top: 190px; background-color: #d9ffdb;">
+				more distracting things, this time with inline styles
+			</aside>
+
+			<article>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies erat non eros pharetra, at mollis lorem tristique. Vivamus suscipit ut nunc ut porta. Sed consequat, mauris ac accumsan luctus, ante tortor lobortis elit, sit amet fermentum ipsum elit at mi. Proin eleifend imperdiet ex id elementum. Curabitur ac tempor sapien. Donec vel nulla et nisl mollis posuere. Ut consectetur sapien ac odio mollis efficitur. Pellentesque vehicula enim a felis suscipit dignissim. Vestibulum rhoncus nulla at semper rutrum. Aenean sollicitudin, sapien a congue ornare, nisi massa dignissim mauris, sed bibendum erat ante non libero. Aliquam porta elit quis metus viverra ornare. Cras congue, dui quis ornare venenatis, purus justo semper arcu, non tempus justo est sed enim. Morbi fermentum et neque vitae auctor.</p>
+				<p>Donec luctus dictum nulla nec imperdiet. Etiam aliquam nibh velit, id consectetur magna hendrerit sit amet. Duis ut felis metus. Fusce vulputate nulla ut nibh elementum, non viverra felis ultricies. Proin finibus eu diam in sagittis. Aliquam vel purus cursus, consequat dolor vitae, elementum nibh. Morbi mattis lorem at luctus semper. Integer venenatis bibendum ante, ac ultricies erat tincidunt quis.</p>
+				<p>Morbi ut odio id risus blandit varius eget sed arcu. Suspendisse eu ultricies nibh, vel sodales magna. Aenean elit arcu, posuere vitae efficitur ac, sagittis et erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel purus non ipsum aliquet eleifend pretium vitae enim. Vivamus vel dictum diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pellentesque, augue vitae ornare finibus, tortor neque euismod libero, vel consequat elit nunc sed velit. Suspendisse porta egestas vulputate. Mauris posuere, nisi sit amet dignissim sagittis, lectus risus congue purus, lobortis porttitor neque lacus in leo. Suspendisse viverra rhoncus elit, ut viverra quam aliquam id. Sed at cursus lacus.</p>
+				<p>Duis sed mollis quam. Vivamus rhoncus aliquam pharetra. Nullam ut imperdiet est. Quisque a tempus purus. Quisque convallis metus in fringilla interdum. Pellentesque a neque et nunc commodo feugiat at et risus. Nunc id mi eget dolor congue posuere.</p>
+				<p>Quisque eu erat augue. Aenean vehicula, purus nec suscipit suscipit, sem purus faucibus odio, a dictum nisi nulla eu lectus. Integer pellentesque nulla ac erat faucibus cursus. Aliquam pulvinar mi sit amet porta tempus. Fusce ipsum magna, pretium in placerat in, euismod ut dui. Suspendisse luctus dapibus orci quis cursus. Praesent ut purus neque. Aliquam erat volutpat. Curabitur vestibulum ac elit non iaculis. Morbi accumsan ultrices purus aliquam porta. Sed convallis tincidunt tincidunt. Integer pulvinar felis ex, vel tempor mauris pulvinar vel. Morbi ultricies sapien quis augue dapibus cursus. Sed non eleifend justo, non vestibulum augue. Praesent sit amet nisl porttitor, egestas sem sit amet, bibendum nulla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies erat non eros pharetra, at mollis lorem tristique. Vivamus suscipit ut nunc ut porta. Sed consequat, mauris ac accumsan luctus, ante tortor lobortis elit, sit amet fermentum ipsum elit at mi. Proin eleifend imperdiet ex id elementum. Curabitur ac tempor sapien. Donec vel nulla et nisl mollis posuere. Ut consectetur sapien ac odio mollis efficitur. Pellentesque vehicula enim a felis suscipit dignissim. Vestibulum rhoncus nulla at semper rutrum. Aenean sollicitudin, sapien a congue ornare, nisi massa dignissim mauris, sed bibendum erat ante non libero. Aliquam porta elit quis metus viverra ornare. Cras congue, dui quis ornare venenatis, purus justo semper arcu, non tempus justo est sed enim. Morbi fermentum et neque vitae auctor.</p>
+				<p>Donec luctus dictum nulla nec imperdiet. Etiam aliquam nibh velit, id consectetur magna hendrerit sit amet. Duis ut felis metus. Fusce vulputate nulla ut nibh elementum, non viverra felis ultricies. Proin finibus eu diam in sagittis. Aliquam vel purus cursus, consequat dolor vitae, elementum nibh. Morbi mattis lorem at luctus semper. Integer venenatis bibendum ante, ac ultricies erat tincidunt quis.</p>
+				<p>Morbi ut odio id risus blandit varius eget sed arcu. Suspendisse eu ultricies nibh, vel sodales magna. Aenean elit arcu, posuere vitae efficitur ac, sagittis et erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel purus non ipsum aliquet eleifend pretium vitae enim. Vivamus vel dictum diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pellentesque, augue vitae ornare finibus, tortor neque euismod libero, vel consequat elit nunc sed velit. Suspendisse porta egestas vulputate. Mauris posuere, nisi sit amet dignissim sagittis, lectus risus congue purus, lobortis porttitor neque lacus in leo. Suspendisse viverra rhoncus elit, ut viverra quam aliquam id. Sed at cursus lacus.</p>
+				<p>Duis sed mollis quam. Vivamus rhoncus aliquam pharetra. Nullam ut imperdiet est. Quisque a tempus purus. Quisque convallis metus in fringilla interdum. Pellentesque a neque et nunc commodo feugiat at et risus. Nunc id mi eget dolor congue posuere.</p>
+				<p>Quisque eu erat augue. Aenean vehicula, purus nec suscipit suscipit, sem purus faucibus odio, a dictum nisi nulla eu lectus. Integer pellentesque nulla ac erat faucibus cursus. Aliquam pulvinar mi sit amet porta tempus. Fusce ipsum magna, pretium in placerat in, euismod ut dui. Suspendisse luctus dapibus orci quis cursus. Praesent ut purus neque. Aliquam erat volutpat. Curabitur vestibulum ac elit non iaculis. Morbi accumsan ultrices purus aliquam porta. Sed convallis tincidunt tincidunt. Integer pulvinar felis ex, vel tempor mauris pulvinar vel. Morbi ultricies sapien quis augue dapibus cursus. Sed non eleifend justo, non vestibulum augue. Praesent sit amet nisl porttitor, egestas sem sit amet, bibendum nulla.</p>
+				<p>Donec luctus dictum nulla nec imperdiet. Etiam aliquam nibh velit, id consectetur magna hendrerit sit amet. Duis ut felis metus. Fusce vulputate nulla ut nibh elementum, non viverra felis ultricies. Proin finibus eu diam in sagittis. Aliquam vel purus cursus, consequat dolor vitae, elementum nibh. Morbi mattis lorem at luctus semper. Integer venenatis bibendum ante, ac ultricies erat tincidunt quis.</p>
+				<p>Morbi ut odio id risus blandit varius eget sed arcu. Suspendisse eu ultricies nibh, vel sodales magna. Aenean elit arcu, posuere vitae efficitur ac, sagittis et erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel purus non ipsum aliquet eleifend pretium vitae enim. Vivamus vel dictum diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pellentesque, augue vitae ornare finibus, tortor neque euismod libero, vel consequat elit nunc sed velit. Suspendisse porta egestas vulputate. Mauris posuere, nisi sit amet dignissim sagittis, lectus risus congue purus, lobortis porttitor neque lacus in leo. Suspendisse viverra rhoncus elit, ut viverra quam aliquam id. Sed at cursus lacus.</p>
+				<p>Duis sed mollis quam. Vivamus rhoncus aliquam pharetra. Nullam ut imperdiet est. Quisque a tempus purus. Quisque convallis metus in fringilla interdum. Pellentesque a neque et nunc commodo feugiat at et risus. Nunc id mi eget dolor congue posuere.</p>
+				<p>Quisque eu erat augue. Aenean vehicula, purus nec suscipit suscipit, sem purus faucibus odio, a dictum nisi nulla eu lectus. Integer pellentesque nulla ac erat faucibus cursus. Aliquam pulvinar mi sit amet porta tempus. Fusce ipsum magna, pretium in placerat in, euismod ut dui. Suspendisse luctus dapibus orci quis cursus. Praesent ut purus neque. Aliquam erat volutpat. Curabitur vestibulum ac elit non iaculis. Morbi accumsan ultrices purus aliquam porta. Sed convallis tincidunt tincidunt. Integer pulvinar felis ex, vel tempor mauris pulvinar vel. Morbi ultricies sapien quis augue dapibus cursus. Sed non eleifend justo, non vestibulum augue. Praesent sit amet nisl porttitor, egestas sem sit amet, bibendum nulla.</p>
+			</article>
+		</main>
+
+		<footer>
+			i'm static at first, but will have a fixed position set later
+		</footer>
+
+		<script src="i-hate-fixed-navigation.js"></script>
+
+		<script>
+			setTimeout( function() {
+				const aside = document.createElement( 'aside' );
+
+				aside.appendChild( document.createTextNode( "this was added by js after the document loaded" ) );
+				aside.classList.add( 'another-aside' );
+				aside.style.cssText = 'position:fixed; top: 265px; background-color: #fffbcc';
+
+				document.getElementsByTagName( 'main' )[0].appendChild( aside );
+				document.getElementsByTagName( 'footer' )[0].style.cssText = 'position: fixed; bottom: 0; width: 100%';
+
+				// todo make sure also works w/ just doing style.position = 'fixed'
+			}, 2500 );
+		</script>
+	</body>
+</html>
